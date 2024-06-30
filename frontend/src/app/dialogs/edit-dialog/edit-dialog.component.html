@@ -1,0 +1,37 @@
+<div>
+    <tui-input [formControl]="form.controls.name" tuiAutoFocus tuiTextfieldSize="l">
+        Имя доски
+    </tui-input>
+    <tui-error
+            [formControl]="form.controls.name"
+            [error]="[] | tuiFieldError | async"
+    ></tui-error>
+</div>
+<tui-textarea
+        [formControl]="form.controls.description"
+        [expandable]="true"
+        tuiTextfieldSize="l"
+>
+    Описание доски
+</tui-textarea>
+
+<div class="actions">
+    <button
+            size="l"
+            tuiButton
+            type="button"
+            appearance="outline"
+            (click)="close()"
+    >
+        Отмена
+    </button>
+    <button
+            size="l"
+            tuiButton
+            type="button"
+            appearance="primary"
+            (click)="createOrUpdate()"
+    >
+        {{ data.mode === 'update' ? 'Сохранить' : 'Создать' }}
+    </button>
+</div>

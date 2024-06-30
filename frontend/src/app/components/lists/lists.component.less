@@ -1,0 +1,89 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+@list-width: 16rem;
+
+:host {
+    width: 100%;
+    overflow: auto;
+    padding: 1rem;
+    position: relative;
+
+    .create {
+        position: absolute;
+        top: 1rem;
+        width: @list-width;
+
+        &.button {
+            font: var(--tui-font-text-m);
+            min-height: 3.625rem;
+            border-radius: var(--tui-radius-xl);
+            background-color: var(--tui-base-01)
+        }
+
+        &.input {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: @list-width;
+
+            .actions {
+                display: flex;
+                gap: 0.25rem;
+                justify-content: space-between;
+            }
+        }
+    }
+
+
+    .tiles {
+        display: flex;
+        gap: 1rem;
+        height: 3.5rem;
+
+        tui-tile {
+            &._dragged {
+                box-shadow: var(--tui-shadow-hover);
+                border-radius: var(--tui-radius-xl);
+
+                cursor: grabbing;
+            }
+        }
+
+        .tile {
+            flex: 0 0 @list-width;
+        }
+
+        .island {
+            display: grid;
+            gap: 1rem;
+            .transition(box-shadow);
+            box-sizing: border-box;
+            background: var(--tui-base-01);
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                gap: 0.5rem;
+            }
+        }
+
+        .handle {
+            cursor: grab;
+        }
+
+        .more {
+            cursor: pointer;
+        }
+    }
+
+
+    .list-wrap {
+        flex: 0 0 @list-width;
+        padding: 0.5rem;
+        font: var(--tui-font-text-m);
+        border: 1px solid var(--tui-base-04);
+        border-radius: 0.325rem;
+        background-color: var(--tui-base-01);
+    }
+
+}

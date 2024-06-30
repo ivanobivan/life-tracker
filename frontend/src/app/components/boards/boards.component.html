@@ -1,0 +1,80 @@
+@defer (when boards !== null) {
+    @if (boards && boards.length) {
+        <tui-tiles
+                class="tiles"
+                [(order)]="orderMap"
+                [debounce]="100"
+                (orderChange)="boardOrderChange($event)"
+        >
+            @for (board of boards; track board.id) {
+                <tui-tile
+                        class="tile"
+                        [style.order]="orderMap.get($index)"
+                >
+                    <tui-island class="island" (click)="selectBoard(board.id)">
+                        <div class="info">
+                            <div class="name">{{ board.name }}</div>
+                            <div class="description">{{ board.description }}</div>
+                        </div>
+                        <div class="actions">
+                            <tui-hosted-dropdown
+                                    [content]="menu"
+                                    [sided]="true"
+                                    [(open)]="dropDownOpen[$index]"
+                            >
+                                <tui-svg src="tuiIconMoreHorizontal" class="more"></tui-svg>
+                                <ng-template #menu>
+                                    <tui-data-list size="s">
+                                        <tui-opt-group>
+                                            <button tuiOption (click)="showEditBoardModal(board)">
+                                                Редактировать
+                                            </button>
+                                            <button tuiOption (click)="showArchiveBoardModal(board)">
+                                                Архивировать
+                                            </button>
+                                            <button tuiOption (click)="showRemoveBoardModal(board.id)">
+                                                Удалить
+                                            </button>
+                                        </tui-opt-group>
+                                    </tui-data-list>
+                                </ng-template>
+                            </tui-hosted-dropdown>
+
+                            <tui-svg
+                                    src="tuiIconDrag"
+                                    tuiTileHandle
+                                    class="handle"
+                            ></tui-svg>
+                        </div>
+                    </tui-island>
+                </tui-tile>
+            }
+        </tui-tiles>
+        <div class="board-actions">
+            <a
+                    tuiIconButton
+                    type="button"
+                    icon="tuiIconPlus"
+                    size="s"
+                    appearance="flat"
+                    class="create"
+                    tuiHint="Создать новую доску"
+                    (click)="showCreateBoardModal(boards.length)"
+            ></a>
+        </div>
+    } @else {
+        <div class="create-board" (click)="showCreateBoardModal()">
+            <tui-svg src="tuiIconPlusLarge"></tui-svg>
+            <div>Новая доска</div>
+        </div>
+    }
+} @placeholder {
+    <div class="tiles">
+        @for (fake of [].constructor(3); track $index) {
+            <tui-island>
+                <div class="tui-skeleton tui-skeleton_text tui-island__title"></div>
+                <div class="tui-skeleton tui-skeleton_text tui-skeleton_short tui-island__paragraph"></div>
+            </tui-island>
+        }
+    </div>
+}

@@ -1,0 +1,100 @@
+@defer (when lists !== null) {
+    <tui-tiles class="tiles" [debounce]="100" [(order)]="listOrder" (orderChange)="listOrderChange($event)">
+        @for (list of lists; track list.id) {
+            <tui-tile class="tile" [style.order]="listOrder.get($index)">
+                <tui-island class="island">
+                    <header>
+                        <div class="tui-text_body-m">{{ list.name }}</div>
+                        <div class="actions">
+                            <tui-svg
+                                    src="tuiIconDrag"
+                                    tuiTileHandle
+                                    class="handle"
+                            ></tui-svg>
+                            <tui-hosted-dropdown
+                                    [content]="menu"
+                                    [sided]="true"
+                                    [(open)]="dropDownOpen[$index]"
+                            >
+                                <tui-svg src="tuiIconMoreHorizontal" class="more"></tui-svg>
+                                <ng-template #menu>
+                                    <tui-data-list size="s">
+                                        <tui-opt-group>
+                                            <button tuiOption (click)="showEditListModal(list)">
+                                                Редактировать
+                                            </button>
+                                            <button tuiOption (click)="showArchiveListModal(list)">
+                                                Архивировать
+                                            </button>
+                                            <button tuiOption (click)="showRemoveListModal(list.id)">
+                                                Удалить
+                                            </button>
+                                        </tui-opt-group>
+                                    </tui-data-list>
+                                </ng-template>
+                            </tui-hosted-dropdown>
+                        </div>
+                    </header>
+                </tui-island>
+            </tui-tile>
+        }
+    </tui-tiles>
+
+    <!--@for(taskWithParent of tasks$ | async; track $index) {
+        <tracker-tasks  [tasks]="taskWithParent[0]"/>
+    }-->
+
+    @if (createListMode$ | async) {
+        <div [style.left.rem]="createOffset" class="create input">
+            <tui-input
+                    [formControl]="nameControl"
+                    [class.empty]="!nameControl.value"
+                    class="create-input"
+                    tuiTextfieldSize="l"
+                    (keyup.enter)="createList(lists?.length)"
+            >
+                Введите имя списка
+            </tui-input>
+            <div class="actions">
+                <button
+                        appearance="primary"
+                        tuiButton
+                        type="button"
+                        size="s"
+                        (click)="createList(lists?.length)"
+                >
+                    Создать
+                </button>
+                <button
+                        appearance="secondary"
+                        tuiButton
+                        type="button"
+                        size="s"
+                        (click)="toggleCreateMode(false)"
+                >
+                    Отмена
+                </button>
+            </div>
+        </div>
+    } @else {
+        <button
+                [style.left.rem]="createOffset"
+                appearance="outline"
+                tuiButton
+                type="button"
+                icon="tuiIconPlus"
+                size="m"
+                class="create button"
+                (click)="toggleCreateMode(true)"
+        >
+            Добавить список
+        </button>
+    }
+
+} @placeholder {
+    <div>Загрузка списков...</div>
+}
+
+
+
+

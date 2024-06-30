@@ -1,0 +1,11 @@
+<tui-root>
+    <main>
+        <tracker-boards [boards]="boards$ | async"/>
+        @if (activeBoard$ | async; as activeBoard) {
+            <tracker-lists [lists]="lists$ | async" [activeBoard]="activeBoard"/>
+        } @else {
+            <div class="tui-text_h6 board-select">Выберите доску</div>
+        }
+        <tui-loader [showLoader]="(loading$ | async) || false" [overlay]="true" class="loading"/>
+    </main>
+</tui-root>
